@@ -38,7 +38,7 @@ export const style = StyleSheet.create({
     color: '#222',
   },
   infoLojaContainer: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#02B3FF',
     borderRadius: 20,
     marginHorizontal: 16,
     marginTop: 12,
@@ -89,7 +89,7 @@ export const style = StyleSheet.create({
   dateText: {
     marginLeft: 6,
     fontSize: 14,
-    color: '#007bff',
+    color: '#02B3FF',
   },
   categoriaContainer: {
     flexDirection: 'row',
@@ -104,7 +104,7 @@ export const style = StyleSheet.create({
     marginRight: 8,
   },
   categoriaButtonSelected: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#02B3FF',
   },
   categoriaButtonText: {
     fontSize: 14,
@@ -146,7 +146,7 @@ export const style = StyleSheet.create({
   },
   quantidadeInput: {
     borderWidth: 1,
-    borderColor: '#007bff',
+    borderColor: '#02B3FF',
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 6,
@@ -157,11 +157,11 @@ export const style = StyleSheet.create({
   unidadeText: {
     marginTop: 4,
     fontSize: 12,
-    color: '#007bff',
+    color: '#02B3FF',
     textAlign: 'center',
   },
   footer: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#02B3FF',
     paddingVertical: 8,
     alignItems: 'center',
     marginTop: 8,
@@ -179,7 +179,7 @@ export const style = StyleSheet.create({
 footerCard: {
   flexDirection: 'row',
   alignItems: 'center',
-  backgroundColor: '#007bff',
+  backgroundColor: '#02B3FF',
   borderRadius: 30,
   paddingHorizontal: 16,
   paddingVertical: 8,
@@ -245,5 +245,90 @@ separatorLine: {
   height: 1,
   backgroundColor: '#ccc', // cor cinza clara
   marginVertical: 2,
-}
+},
+
+abasWrapper: {
+    marginHorizontal: 16,
+    marginTop: 10,
+  },
+  abasHeader: {
+    backgroundColor: '#3eb1ff',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    alignItems: 'center',
+  },
+  abasHeaderText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  abasHeaderSubText: {
+    color: 'white',
+    fontSize: 12,
+    marginTop: 2,
+  },
+
+  // container das abas propriamente ditas (Entradas / Pendentes)
+  abasContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#e9f3ff',
+    borderRadius: 8,
+    marginTop: 6,
+    overflow: 'hidden',
+  },
+  abaBotao: {
+    flex: 1,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  abaBotaoSelecionado: {
+    backgroundColor: '#3eb1ff',
+  },
+  abaTexto: {
+    color: '#9aa9bf',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  abaTextoSelecionado: {
+    color: 'white',
+  },
+
+  // Lista entradas
+  listaEntradas: {
+    marginTop: 10,
+  },
+  itemNotaContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    marginHorizontal: 16,
+    marginVertical: 6,
+    padding: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 1,
+  },
+  itemNotaNumero: {
+    color: '#6c757d',
+    fontSize: 12,
+    marginBottom: 2,
+  },
+  itemNotaData: {
+    color: '#6c757d',
+    fontSize: 10,
+    marginBottom: 6,
+  },
+  itemNotaDescricao: {
+    fontSize: 14,
+    color: '#333',
+  },
+
+  // Aba Pendentes (placeholder)
+  pendentesContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
