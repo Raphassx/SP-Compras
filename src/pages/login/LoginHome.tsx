@@ -67,7 +67,7 @@ export default function LoginHome({ navigation }: Props) {
             onPress={() => navigation.goBack()}
           >
             <Ionicons name="cube" size={14} color="white" />
-            <Text style={styles.produtosButtonText}>PRODUTOS</Text>
+            <Text style={styles.produtosButtonText}>NOTAS</Text>
           </TouchableOpacity>
         </View>
 
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   produtosButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#007bff',
+    backgroundColor: '#02B3FF',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 20,
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   loginButton: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#02B3FF',
     paddingVertical: 14,
     borderRadius: 25,
     alignItems: 'center',

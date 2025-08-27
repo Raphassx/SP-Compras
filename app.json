@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Sp-Compras",
-    "slug": "Sp-Compras",
+    "name": "Sp-notas",
+    "slug": "Sp-notas",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

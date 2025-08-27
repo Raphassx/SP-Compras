@@ -20,8 +20,8 @@ export default function Login({ navigation }: Props) {
           style={style.button}
           onPress={() => navigation.navigate('LoginHome')}
         >
-          <Ionicons name="cube" size={20} color="white" />
-          <Text style={style.buttonText}>PRODUTOS</Text>
+          <Ionicons name="document-text" size={20} color="white" />
+          <Text style={style.buttonText}>NOTAS</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>

@@ -22,7 +22,7 @@ export const style = StyleSheet.create({
   button: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#007bff',
+    backgroundColor: '#02B3FF',
     paddingVertical: 10,
     paddingHorizontal: 25,
     borderRadius: 25,
