@@ -6,11 +6,13 @@ import Login from './src/pages/login';
 import LoginHome from './src/pages/login/LoginHome';
 import LoginLojas from './src/pages/login/loginLojas';
 import Home from './src/pages/home/home';
-import Categorias from './src/pages/categorias/categorias';
+import NotasDetalhes from './src/pages/notas/notasDetalhes';
 
 import { AuthProvider } from './src/pages/contexto/AuthContext';
 
-const Stack = createNativeStackNavigator();
+import type { RootStackParamList } from './src/routes/types';
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
@@ -20,9 +22,8 @@ export default function App() {
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="LoginHome" component={LoginHome} />
           <Stack.Screen name="LoginLojas" component={LoginLojas} />
-             <Stack.Screen name="Home" component={Home} />
-         
-      
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="NotasDetalhes" component={NotasDetalhes} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>
