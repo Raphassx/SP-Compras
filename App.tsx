@@ -7,6 +7,7 @@ import LoginHome from './src/pages/login/LoginHome';
 import LoginLojas from './src/pages/login/loginLojas';
 import Home from './src/pages/home/home';
 import NotasDetalhes from './src/pages/notas/notasDetalhes';
+import NotasPendentes from './src/pages/notas/notasPendentes';
 
 import { AuthProvider } from './src/pages/contexto/AuthContext';
 
@@ -24,6 +25,7 @@ export default function App() {
           <Stack.Screen name="LoginLojas" component={LoginLojas} />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="NotasDetalhes" component={NotasDetalhes} />
+          <Stack.Screen name="NotasPendentes" component={NotasPendentes} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>

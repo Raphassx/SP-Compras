@@ -7,26 +7,97 @@ import {
   TouchableOpacity,
   TextInput,
   StyleSheet,
+  Image,
+  ImageSourcePropType,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { styles } from './styleNotas';
 
-import type { RootStackParamList } from '../../routes/types';
+// Tipo Produto ajustado para aceitar imagem local via require()
+type Produto = {
+  codigo: string;
+  descricao: string;
+  quantidade: number;
+  valorUnitario: number;
+  valorTotal: number;
+  unidade?: string;
+  imagem?: ImageSourcePropType;
+};
 
-type NotasDetalhesRouteProp = RouteProp<RootStackParamList, 'NotasDetalhes'>;
-type NotasDetalhesNavigationProp = NativeStackNavigationProp<RootStackParamList, 'NotasDetalhes'>;
+type Nota = {
+  nfe: string;
+  descricao?: string;
+  numero: number;
+  serie: number;
+  tipoOperacao: string;
+  emissao: string;
+  cnpjEmitente: string;
+  razaoSocialEmitente: string;
+  cnpjDestinatario: string;
+  razaoSocialDestinatario: string;
+  produtos?: Produto[];
+  valorNota?: number;
+  valorProdutos?: number;
+};
+
+type RootStackParamList = {
+  NotasDetalhes: { nota: Nota };
+};
+
+type NotasDetalhesNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'NotasDetalhes'
+>;
 
 export default function NotasDetalhes() {
-  const route = useRoute<NotasDetalhesRouteProp>();
+  // Dados fixos locais
+  const nota: Nota = {
+    nfe: '123456789',
+    numero: 123,
+    serie: 1,
+    tipoOperacao: 'Venda',
+    emissao: '2025-09-03',
+    cnpjEmitente: '12.345.678/0001-99',
+    razaoSocialEmitente: 'Empresa Exemplo Ltda',
+    cnpjDestinatario: '98.765.432/0001-11',
+    razaoSocialDestinatario: 'Cliente Exemplo SA',
+    produtos: [
+      {
+        codigo: '8458',
+        descricao:
+          'Refrigerante Coca-Cola Original, 350ml, Pack com 12 unidades, Coca-Cola - PT 12 UN',
+        quantidade: 72000,
+        unidade: 'L',
+        valorUnitario: 12.7928,
+        valorTotal: 921.08,
+        imagem: require('../../assets/produto.png'), // Ajuste para o caminho da imagem no seu projeto
+      },
+      {
+        codigo: '8458',
+        descricao:
+          'Refrigerante Coca-Cola Original, 350ml, Pack com 12 unidades, Coca-Cola - PT 12 UN',
+        quantidade: 72000,
+        unidade: 'CX',
+        valorUnitario: 12.7928,
+        valorTotal: 921.08,
+        imagem: require('../../assets/produto.png'),
+      },
+    ],
+    valorNota: 921.08,
+    valorProdutos: 921.08,
+  };
+
   const navigation = useNavigation<NotasDetalhesNavigationProp>();
-  const { nota } = route.params;
 
   const [openSections, setOpenSections] = useState({
     infoNota: true,
     dadosEmitente: true,
     dadosDestinatario: true,
+    eventosServicos: true, // nova seção adicionada
   });
+  const [openProdutos, setOpenProdutos] = useState(true);
 
   const toggleSection = (section: keyof typeof openSections) => {
     setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }));
@@ -35,7 +106,6 @@ export default function NotasDetalhes() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity
@@ -45,7 +115,7 @@ export default function NotasDetalhes() {
           >
             <Ionicons name="arrow-back-outline" size={30} color="#FFFFFF" />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Entradas</Text>
+          <Text style={styles.headerTitle}>Detalhes da Nota</Text>
         </View>
 
         {/* Informação da Nota */}
@@ -67,10 +137,12 @@ export default function NotasDetalhes() {
               <View style={styles.nfeContainer}>
                 <View style={styles.nfeNumberContainer}>
                   <Text style={styles.nfeLabel}>NFe:</Text>
-                  <Text style={styles.nfeNumber}>{nota.nfe}</Text>
+                  <Text style={styles.nfeNumber}>{nota.nfe || '---'}</Text>
                 </View>
               </View>
-              <Text style={styles.nfeDescription}>{nota.descricao}</Text>
+              <Text style={styles.nfeDescription}>
+                {nota.descricao || 'Sem descrição'}
+              </Text>
 
               <View style={styles.infoRow}>
                 <View style={styles.infoBox}>
@@ -132,7 +204,9 @@ export default function NotasDetalhes() {
                 editable={false}
                 style={styles.input}
               />
-              <Text style={[styles.label, { marginTop: 12 }]}>Nome/Razão Social</Text>
+              <Text style={[styles.label, { marginTop: 12 }]}>
+                Nome/Razão Social
+              </Text>
               <TextInput
                 value={nota.razaoSocialEmitente}
                 editable={false}
@@ -164,7 +238,9 @@ export default function NotasDetalhes() {
                 editable={false}
                 style={styles.input}
               />
-              <Text style={[styles.label, { marginTop: 12 }]}>Nome/Razão Social</Text>
+              <Text style={[styles.label, { marginTop: 12 }]}>
+                Nome/Razão Social
+              </Text>
               <TextInput
                 value={nota.razaoSocialDestinatario}
                 editable={false}
@@ -174,93 +250,122 @@ export default function NotasDetalhes() {
           )}
         </View>
 
+       
+        {/* Produtos */}
+        <View style={styles.card}>
+          <TouchableOpacity
+            style={styles.sectionHeaderInsideCard}
+            onPress={() => setOpenProdutos(!openProdutos)}
+          >
+            <Text style={styles.sectionTitle}>Produtos</Text>
+            <Ionicons
+              name={openProdutos ? 'chevron-up-outline' : 'chevron-down-outline'}
+              size={20}
+              color="#666"
+            />
+          </TouchableOpacity>
+
+          {openProdutos && (
+            <View style={{ marginTop: 12 }}>
+              {(nota.produtos || []).map((produto, index) => (
+                <View key={index} style={styles.produtoContainer}>
+                  <Text style={styles.produtoCodigo}>CÓDIGO: {produto.codigo}</Text>
+                  <View style={styles.produtoRow}>
+                    <Image
+                      source={produto.imagem || require('../../assets/produto.png')}
+                      style={styles.produtoImagem}
+                    />
+                    <View style={styles.produtoInfo}>
+                      <Text
+                        style={styles.produtoDescricao}
+                        numberOfLines={3}
+                      >
+                        <Text style={{ fontWeight: '700' }}>
+                          {produto.descricao}
+                        </Text>
+                      </Text>
+                      <Text style={styles.produtoQuantidade}>
+                        {produto.quantidade.toLocaleString('pt-BR', {
+                          minimumFractionDigits: 3,
+                        })}{' '}
+                        {produto.unidade || 'UN'} x R${' '}
+                        {produto.valorUnitario.toLocaleString('pt-BR', {
+                          minimumFractionDigits: 4,
+                        })}
+                      </Text>
+                    </View>
+                    <Text style={styles.produtoValorTotal}>
+                      R${' '}
+                      {produto.valorTotal.toLocaleString('pt-BR', {
+                        minimumFractionDigits: 2,
+                      })}
+                    </Text>
+                  </View>
+                  {index < (nota.produtos?.length || 0) - 1 && (
+                    <View style={styles.divider} />
+                  )}
+                </View>
+              ))}
+
+              <View style={styles.resumoContainer}>
+                <Text style={styles.resumoText}>
+                  Valor da nota:{' '}
+                  <Text style={{ fontWeight: '700' }}>
+                    R${' '}
+                    {nota.valorNota?.toLocaleString('pt-BR', {
+                      minimumFractionDigits: 10,
+                    })}
+                  </Text>
+                </Text>
+                <Text style={styles.resumoText}>
+                  Valor dos Produtos:{' '}
+                  <Text style={{ fontWeight: '700' }}>
+                    R${' '}
+                    {nota.valorProdutos?.toLocaleString('pt-BR', {
+                      minimumFractionDigits: 10,
+                    })}
+                  </Text>
+                </Text>
+              </View>
+            </View>
+          )}
+        </View>
+
+ {/* Eventos e Serviços */}
+        <View style={styles.card}>
+          <TouchableOpacity
+            style={styles.sectionHeaderInsideCard}
+            onPress={() => toggleSection('eventosServicos')}
+          >
+            <Text style={styles.sectionTitle}>Eventos e Serviços</Text>
+            <Ionicons
+              name={openSections.eventosServicos ? 'chevron-up-outline' : 'chevron-down-outline'}
+              size={20}
+              color="#666"
+            />
+          </TouchableOpacity>
+
+          {openSections.eventosServicos && (
+            <View style={styles.sectionContent}>
+              <Text style={styles.label}>Evento</Text>
+              <TextInput
+                value="26288710000397"
+                editable={false}
+                style={styles.input}
+              />
+              <Text style={[styles.label, { marginTop: 12 }]}>Protocolo</Text>
+              <TextInput
+                value="113242996353152"
+                editable={false}
+                style={styles.input}
+              />
+            </View>
+          )}
+        </View>
+
+
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F5F7FA' },
-  scrollContent: { padding: 16, paddingBottom: 40 },
-  header: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
-  headerTitle: { fontSize: 30, fontWeight: '700', marginLeft: 12, color: '#000' },
-  button: {
-    backgroundColor: '#02B3FF',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 5,
-  },
-  sectionTitle: { fontSize: 17, fontWeight: '600', color: '#333' },
-  sectionHeaderInsideCard: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  sectionContent: {
-    marginTop: 12,
-  },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 14,
-    marginBottom: 16,
-  },
-  nfeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 12,
-    marginBottom: 8,
-  },
-  nfeNumberContainer: {
-    backgroundColor: '#02B3FF',
-    borderRadius: 20,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  nfeLabel: {
-    color: '#fff',
-    fontWeight: 'bold',
-    marginRight: 4,
-  },
-  nfeNumber: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  nfeDescription: {
-    fontWeight: '600',
-    fontSize: 16,
-    color: '#333',
-    marginBottom: 12,
-  },
-  infoRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    gap: 8,
-  },
-  infoBox: {
-    width: '48%',
-    marginBottom: 12,
-  },
-  infoBoxLabel: { fontSize: 12, color: '#666', marginBottom: 4 },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 6,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    backgroundColor: '#fff',
-    color: '#333',
-  },
-  label: { fontSize: 12, color: '#666', marginBottom: 4 },
-});

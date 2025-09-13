@@ -1,0 +1,125 @@
+import { StyleSheet, Dimensions } from "react-native";
+
+const { width, height } = Dimensions.get('window');
+
+export const styles = StyleSheet.create({
+  
+  container: { flex: 1, backgroundColor: '#F5F7FA' },
+  scrollContent: { padding: 16, paddingBottom: 40 },
+  header: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
+  headerTitle: { fontSize: 30, fontWeight: '700', marginLeft: 12, color: '#000' },
+  button: {
+    backgroundColor: '#02B3FF',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 5,
+  },
+  sectionTitle: { fontSize: 17, fontWeight: '600', color: '#333' },
+  sectionHeaderInsideCard: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  sectionContent: { marginTop: 12 },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 14,
+    marginBottom: 16,
+  },
+  nfeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 12,
+    marginBottom: 8,
+  },
+  nfeNumberContainer: {
+    backgroundColor: '#02B3FF',
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  nfeLabel: { color: '#fff', fontWeight: 'bold', marginRight: 4 },
+  nfeNumber: { color: '#fff', fontWeight: 'bold' },
+  nfeDescription: {
+    fontWeight: '600',
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 12,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  infoBox: { width: '48%', marginBottom: 12 },
+  infoBoxLabel: { fontSize: 12, color: '#666', marginBottom: 4 },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    backgroundColor: '#fff',
+    color: '#333',
+  },
+  label: { fontSize: 12, color: '#666', marginBottom: 4 },
+  produtoContainer: { marginBottom: 12 },
+  produtoCodigo: { fontSize: 12, color: '#666', marginBottom: 4 },
+  produtoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  produtoImagem: {
+    width: 60,
+    height: 60,
+    resizeMode: 'contain',
+    marginRight: 10,
+  },
+  produtoInfo: {
+    flex: 1,
+  },
+  produtoDescricao: {
+    fontWeight: '700',
+    fontSize: 15,
+    color: '#333',
+  },
+  produtoQuantidade: {
+    fontSize: 13,
+    color: '#666',
+    marginTop: 4,
+  },
+  produtoValorTotal: {
+    fontWeight: '700',
+    fontSize: 18,
+    color: '#333',
+    marginLeft: 10,
+  },
+  divider: {
+    borderBottomColor: '#ddd',
+    borderBottomWidth: 1,
+    marginTop: 12,
+  },
+  resumoContainer: {
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+    paddingTop: 12,
+    marginTop: 8,
+  },
+  resumoText: {
+    fontSize: 15,
+    color: '#333',
+    marginBottom: 6,
+  },
+});

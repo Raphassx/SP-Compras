@@ -99,7 +99,7 @@ function InfoLoja({ loja }: { loja: string }) {
     <View style={style.infoLojaContainer}>
       <View style={style.infoLojaInner}>
         <Ionicons name="cube-outline" size={20} color="white" />
-        <Text style={style.infoLojaText}>Pedidos de Compras</Text>
+        <Text style={style.infoLojaText}>Entrada de Notas</Text>
       </View>
       <Text style={style.lojaNome}>{loja}</Text>
     </View>
@@ -170,6 +170,7 @@ function EntradaItem({
   );
 }
 
+
 function Abas({
   abaAtiva,
   setAbaAtiva,
@@ -177,6 +178,11 @@ function Abas({
   abaAtiva: 'Entradas' | 'Pendentes';
   setAbaAtiva: (aba: 'Entradas' | 'Pendentes') => void;
 }) {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+ const handlePress = (aba: 'Entradas' | 'Pendentes') => {
+  setAbaAtiva(aba); // ← Corrigido: só muda a aba
+};
   return (
     <View
       style={{
@@ -197,7 +203,7 @@ function Abas({
             borderBottomColor: abaAtiva === aba ? '#02B3FF' : 'transparent',
             alignItems: 'center',
           }}
-          onPress={() => setAbaAtiva(aba as 'Entradas' | 'Pendentes')}
+          onPress={() => handlePress(aba as 'Entradas' | 'Pendentes')}
         >
           <Text
             style={{
@@ -225,23 +231,38 @@ export default function Home() {
   const [abaAtiva, setAbaAtiva] = useState<'Entradas' | 'Pendentes'>('Entradas');
 
   // Dados de exemplo mais completos para a navegação funcionar bem
-  const entradas = [
-    {
-      id: '1',
-      data: '14/08/2025 - 14:40:18',
-      titulo:
-        'Venda de mercadoria adquirida ou recebida de terceiro lote, 25 caixas de mercadoria adquirida ou recebida de terceiro lote',
-      nota: '41462412334523454536456546',
-      // Campos extras para detalhes
-      numero: 240,
-      serie: 1,
-      tipoOperacao: '1- SAÍDA',
-      emissao: '16/10/2024 17:19:23',
-      cnpjEmitente: '26288710000397',
-      razaoSocialEmitente: 'SP RESTAURANTES - TARUMÃ',
-      cnpjDestinatario: '26288710000397',
-      razaoSocialDestinatario: 'SP RESTAURANTES - PARAÍBA',
-    },
+ const entradas = [
+  {
+    id: '1',
+    data: '14/08/2025 - 14:40:18',
+    titulo:
+      'Venda de mercadoria adquirida ou recebida de terceiro lote, 25 caixas de mercadoria adquirida ou recebida de terceiro lote',
+    nota: '41462412334523454536456546',
+    // Campos extras para detalhes
+    numero: 240,
+    serie: 1,
+    tipoOperacao: '1- SAÍDA',
+    emissao: '16/10/2024 17:19:23',
+    cnpjEmitente: '26288710000397',
+    razaoSocialEmitente: 'SP RESTAURANTES - TARUMÃ',
+    cnpjDestinatario: '26288710000397',
+    razaoSocialDestinatario: 'SP RESTAURANTES - PARAÍBA',
+
+    // Aqui os dados do produto no formato da imagem
+    produtos: [
+  {
+    codigo: '8458',
+    descricao: 'Refrigerante Coca-Cola Original, 350ml, Pack com 12 unidades, Coca-Cola - PT 12 UN',
+    quantidade: 72.0,
+    unidade: 'L',
+    valorUnitario: 12.7928,
+    valorTotal: 921.08,
+    imagem: require('../../assets/produto.png'), // <-- aqui
+  },
+  // outros produtos...
+]
+  },
+
     {
       id: '2',
       data: '14/08/2025 - 14:40:18',
@@ -324,32 +345,37 @@ export default function Home() {
         </View>
       )}
 
-      <FlatList
-        data={abaAtiva === 'Entradas' ? entradas : pendentes}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <EntradaItem
-            item={item}
-            onPress={() =>
-              navigation.navigate('NotasDetalhes', {
-                nota: {
-                  numero: item.numero,
-                  serie: item.serie,
-                  tipoOperacao: item.tipoOperacao,
-                  emissao: item.emissao,
-                  cnpjEmitente: item.cnpjEmitente,
-                  razaoSocialEmitente: item.razaoSocialEmitente,
-                  cnpjDestinatario: item.cnpjDestinatario,
-                  razaoSocialDestinatario: item.razaoSocialDestinatario,
-                  nfe: item.nota,
-                },
-              })
-            }
-          />
-        )}
-        style={{ flex: 1 }}
-        contentContainerStyle={{ paddingVertical: 10 }}
-      />
+     <FlatList
+  data={abaAtiva === 'Entradas' ? entradas : pendentes}
+  keyExtractor={(item) => item.id}
+  renderItem={({ item }) => (
+    <EntradaItem
+      item={item}
+      onPress={() => {
+        const nota = {
+          numero: item.numero,
+          serie: item.serie,
+          tipoOperacao: item.tipoOperacao,
+          emissao: item.emissao,
+          cnpjEmitente: item.cnpjEmitente,
+          razaoSocialEmitente: item.razaoSocialEmitente,
+          cnpjDestinatario: item.cnpjDestinatario,
+          razaoSocialDestinatario: item.razaoSocialDestinatario,
+          nfe: item.nota,
+        };
+
+        if (abaAtiva === 'Pendentes') {
+          navigation.navigate('NotasPendentes', { nota });
+        } else {
+          navigation.navigate('NotasDetalhes', { nota });
+        }
+      }}
+    />
+  )}
+  style={{ flex: 1 }}
+  contentContainerStyle={{ paddingVertical: 10 }}
+/>
+
 
       <View
         style={{
